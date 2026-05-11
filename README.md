@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Intro
+This is a application to shorten URL's and to track click rate and generalised location such as:
+
+Original Link: https://www.bbc.co.uk/news/articles/cn0pgl0vk0qo
+Short link: https://linkto.bltlabs.co.uk/xxxxx
 
 ## Getting Started
 
@@ -13,6 +17,11 @@ pnpm dev
 # or
 bun dev
 ```
+
+Migrate DB
+
+npx prisma migrate dev --name init
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
