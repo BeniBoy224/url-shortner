@@ -11,7 +11,7 @@ export default async function RedirectPage(props: PageProps<'/[slug]'>) {
   })
 
   if (!url) {
-    return <div>Link not found</div>
+    return <div className="text-center text-2xl font-semibold">Link not found</div>
   }
 
   await prisma.url.update({
