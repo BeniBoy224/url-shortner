@@ -39,6 +39,8 @@ export async function POST(req: NextRequest) {
     }
   })
 
+  console.log(process.env.NEXT_PUBLIC_BASE_URL)
+
   return NextResponse.json(
     { shortUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/${newUrl.shortCode}` },
     { headers: { "X-RateLimit-Remaining": String(remaining) } }

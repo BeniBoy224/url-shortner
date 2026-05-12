@@ -1,5 +1,4 @@
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -21,30 +20,26 @@ export function TopTabs() {
         <TabsTrigger value="tracking">Tracking</TabsTrigger>
       </TabsList>
       <TabsContent value="default">
-        <Card>
-          <CardHeader>
-            <CardTitle>Create a short link</CardTitle>
-            <CardDescription>
-              Create a short link for your long URL. Get a concise and shareable link that redirects to your original URL.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ShortenLink />
-          </CardContent>
-        </Card>
+        <CardHeader>
+          <CardTitle>Create a short link</CardTitle>
+          <CardDescription>
+            Create a short link for your long URL. Get a concise and shareable link that redirects to your original URL.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ShortenLink />
+        </CardContent>
       </TabsContent>
       <TabsContent value="tracking">
-        <Card>
-          <CardHeader>
-            <CardTitle>Create a short link with tracking</CardTitle>
-            <CardDescription>
-              Create a short link for your long URL. Get a concise and shareable link that redirects to your original URL. Track the performance of your short links with detailed analytics, including click counts, geographic data, and referral sources.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            Page views are up 25% compared to last month.
-          </CardContent>
-        </Card>
+        <CardHeader>
+          <CardTitle>Create a short link with tracking</CardTitle>
+          <CardDescription>
+            Create a short link for your long URL. Get a concise and shareable link that redirects to your original URL. Track the performance of your short links with detailed analytics, including click counts, geographic data, and referral sources.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="text-sm text-muted-foreground">
+          
+        </CardContent>
       </TabsContent>
     </Tabs>
   )

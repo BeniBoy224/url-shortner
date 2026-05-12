@@ -1,8 +1,9 @@
 "use client"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 export default function ShortenLink() {
   const btnRef = useRef<HTMLButtonElement>(null)
+  const [ shortUrl, setShortUrl] = useState<string>("")
   
   function handleMouseMove(e: React.MouseEvent<HTMLButtonElement>) {
     const btn = btnRef.current
@@ -34,7 +35,7 @@ export default function ShortenLink() {
       })
       
       const data = await response.json()
-      alert(`Short URL: ${data.shortUrl}`)
+      setShortUrl(data.shortUrl)
     } catch (error) {
       console.error("Error shortening URL:", error)
       alert("Failed to shorten URL. Please try again.")
@@ -42,7 +43,7 @@ export default function ShortenLink() {
   }
 
   return (
-        <section>
+        <section className="max-w-md mx-auto">
           <form className="flex gap-4 w-full mt-8" onSubmit={handleSubmit}>
             <input type="text" name="originalUrl" placeholder="Enter a long URL..." className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <button
@@ -58,6 +59,15 @@ export default function ShortenLink() {
               Shorten
             </button>
           </form>
+
+          {shortUrl && (
+            <div className="mt-4">
+              <p className="text-lg font-semibold">Your short URL:</p>
+              <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                {shortUrl}
+              </a>
+            </div>
+          )}
         </section>
   
   )
