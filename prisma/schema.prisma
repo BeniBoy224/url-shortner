@@ -13,9 +13,31 @@ datasource db {
 }
 
 model url {
-  id          String   @id @default(cuid())
-  originalUrl String
-  shortCode   String   @unique
-  clicks      Int      @default(0)
-  createdAt   DateTime @default(now())
+  id             String           @id @default(cuid())
+  originalUrl    String
+  shortCode      String           @unique
+  clicks         Int              @default(0)
+  createdAt      DateTime         @default(now())
+  clickLocations click_locations[]
+  log            Boolean          @default(false)
+  userId         String?
+  user           user?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model user {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  urls      url[]
+}
+
+model click_locations {
+  id         String   @id @default(cuid())
+  country    String
+  regionName String
+  city       String
+  click_time DateTime @default(now())
+  urlId      String
+  url        url      @relation(fields: [urlId], references: [id], onDelete: Cascade)
 }
