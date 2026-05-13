@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { TopNav } from "@/components/custom/top_nav";
+import { TopNav } from "@/components/custom/top-nav";
 import { Providers } from "@/components/custom/providers";
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -33,7 +34,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
       <body className="min-h-full">
-
+        <Toaster />
         <Providers>
           <header>
             <div className="right-0 top-0 w-full absolute">

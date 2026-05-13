@@ -1,3 +1,4 @@
+import { auth } from "@/lib/auth"
 import {
   CardContent,
   CardDescription,
@@ -10,9 +11,16 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import ShortenLink from "./shorten_link"
+import ShortenLink from "./shorten-link"
 
-export function TopTabs() {
+export async function TopTabs() {
+  const session = await auth()
+  let showTrackingInput = false
+
+  if (!session?.user) { showTrackingInput = false } else showTrackingInput = true
+
+  
+
   return (
     <Tabs defaultValue="default" className="w-100">
       <TabsList variant="line">
@@ -27,7 +35,7 @@ export function TopTabs() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ShortenLink />
+          <ShortenLink tracking={false} userId={session?.user?.id || ""} />
         </CardContent>
       </TabsContent>
       <TabsContent value="tracking">
@@ -38,7 +46,11 @@ export function TopTabs() {
           </CardDescription>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          
+          {showTrackingInput ? (
+            <ShortenLink tracking={true} userId={session?.user?.id || ""} />
+          ) : (
+            <div> Logged out </div>
+          )}
         </CardContent>
       </TabsContent>
     </Tabs>

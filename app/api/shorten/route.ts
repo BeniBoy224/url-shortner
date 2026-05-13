@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { originalUrl } = await req.json()
+  const { originalUrl, tracking, userId } = await req.json()
   let shortCodeUnique = false
   let shortCode = ""
 
@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
     data: {
       originalUrl,
       shortCode,
+      log: tracking === true ? true : false,
+      userId: userId || null,
     }
   })
 

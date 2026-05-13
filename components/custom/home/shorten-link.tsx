@@ -1,7 +1,10 @@
 "use client"
 import { useRef, useState } from "react"
 
-export default function ShortenLink() {
+export default function ShortenLink({
+  tracking,
+  userId
+}: {tracking: boolean, userId: string}) {
   const btnRef = useRef<HTMLButtonElement>(null)
   const [ shortUrl, setShortUrl] = useState<string>("")
   
@@ -31,7 +34,7 @@ export default function ShortenLink() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ originalUrl })
+        body: JSON.stringify({ originalUrl, tracking, userId })
       })
       
       const data = await response.json()

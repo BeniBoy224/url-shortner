@@ -1,4 +1,4 @@
-import { TopTabs } from "@/components/custom/home/top_tabs";
+import { TopTabs } from "@/components/custom/home/top-tabs";
 
 
 export default function Home() {
