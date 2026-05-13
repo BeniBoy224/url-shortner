@@ -1,9 +1,13 @@
 services:
   migrate:
-    build: .
+    build:
+      context: .
+      target: migrator
     command: npx prisma migrate deploy
     environment:
       DATABASE_URL: ${DATABASE_URL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: on-failure
 
   app:
@@ -14,6 +18,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       AUTH_SECRET: ${AUTH_SECRET}
       NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       migrate:
         condition: service_completed_successfully
