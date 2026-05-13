@@ -30,7 +30,7 @@ A self-hosted URL shortener that tracks click analytics per link, including tota
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 24+
 - A PostgreSQL database
 - A server or platform to host a Node.js app (e.g. a VPS, Railway, Render)
 
