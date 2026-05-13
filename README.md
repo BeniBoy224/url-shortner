@@ -75,7 +75,7 @@ npm run build
 npm start
 ```
 
-The app will be available on port `3000` by default. Put it behind a reverse proxy (e.g. Nginx or Caddy) to serve it on port 80/443 with TLS.
+The app will be available on port `3010` by default. Put it behind a reverse proxy (e.g. Nginx or Caddy) to serve it on port 80/443 with TLS.
 
 ---
 
@@ -96,7 +96,7 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
 
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3010;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
