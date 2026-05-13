@@ -8,6 +8,7 @@ import { CopyButton } from "@/components/custom/dash/copy-button"
 import TotalClicks from "@/components/custom/dash/total-clicks";
 import { LocationChart } from "@/components/custom/dash/location-chart";
 import { AlertEditUrl } from "@/components/custom/dash/alert-edit-url";
+import Link from "next/link";
 
 export default async function TrackedLinkPage(props: PageProps<'/[slug]'>) {
   const { slug } = await props.params
@@ -20,7 +21,7 @@ export default async function TrackedLinkPage(props: PageProps<'/[slug]'>) {
 
   const url = await prisma.url.findUnique({
     where: { id: slug },
-    select: { userId: true, shortCode:true },
+    select: { userId: true, shortCode:true, originalUrl: true },
   })
 
   if (!url || url.userId !== session.user.id) redirect("/dash")
@@ -50,13 +51,25 @@ export default async function TrackedLinkPage(props: PageProps<'/[slug]'>) {
   return (
     <div className="p-6 pt-24 max-w-7xl mx-auto">
       <div>
+        <div className="pb-3">
+          <Link href="/dash">
+            <Button>Back</Button>
+          </Link>
+        </div>
         <div className="flex items-center justify-between mb-4">
-          <div className="flex gap-3">
-            <a href={baseUrl + "/" + url.shortCode} target="_blank" rel="noopener noreferrer">
-              {baseUrl + "/" + url.shortCode}
-            </a>
-            <CopyButton text={baseUrl + "/" + url.shortCode} />
-            <AlertEditUrl />
+          <div>
+            <div className="flex gap-3">
+              <a href={baseUrl + "/" + url.shortCode} target="_blank" rel="noopener noreferrer">
+                {baseUrl + "/" + url.shortCode}
+              </a>
+              <CopyButton text={baseUrl + "/" + url.shortCode} />
+            </div>
+            <div className="flex gap-3">
+              <a href={url.originalUrl} target="_blank" rel="noopener noreferrer">
+                {url.originalUrl}
+              </a>
+              <AlertEditUrl urlId={slug} currentUrl={url.originalUrl} />
+            </div>
           </div>
           <div>
             <form action={deleteUrl}>
