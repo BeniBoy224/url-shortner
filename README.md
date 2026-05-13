@@ -1,45 +1,105 @@
-## Intro
-This is a application to shorten URL's and to track click rate and generalised location such as:
+# LinkTo — URL Shortener & Click Tracker
 
-Original Link: https://www.bbc.co.uk/news/articles/cn0pgl0vk0qo
-Short link: https://linkto.bltlabs.co.uk/xxxxx
+A self-hosted URL shortener that tracks click analytics per link, including total click counts, click timeline, and generalised location data (country, region, city).
 
-## Getting Started
+**Example**
+- Original: `https://www.bbc.co.uk/news/articles/cn0pgl0vk0qo`
+- Short: `https://linkto.bltlabs.co.uk/abc123`
 
-First, run the development server:
+## Features
+
+- Create short links tied to your account
+- Per-link dashboard with click timeline table, location chart, and total click count
+- Edit or delete links at any time
+- Rate-limited redirect endpoint
+- Authentication with username/password (NextAuth v5)
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Database:** PostgreSQL via Prisma 7
+- **Auth:** NextAuth v5
+- **UI:** Tailwind CSS + shadcn/ui
+
+---
+
+## Production Setup
+
+### Prerequisites
+
+- Node.js 20+
+- A PostgreSQL database
+- A server or platform to host a Node.js app (e.g. a VPS, Railway, Render)
+
+### 1. Clone and install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/BeniBoy224/link-to
+cd url-shortner
+npm install --legacy-peer-deps
 ```
 
-Migrate DB
+### 2. Configure environment variables
 
-npx prisma migrate dev --name init
+Create a `.env` file by copping the `.env.example` in the project root:
 
+```env
+# PostgreSQL connection string
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/link_to"
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# NextAuth secret — generate with: openssl rand -base64 32
+AUTH_SECRET="your-random-secret"
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# The public base URL of your deployment (no trailing slash)
+NEXT_PUBLIC_BASE_URL="https://yourdomain.com"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Run database migrations
 
-## Learn More
+```bash
+npx prisma migrate deploy
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Build the app
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 5. Start the production server
 
-## Deploy on Vercel
+```bash
+npm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The app will be available on port `3000` by default. Put it behind a reverse proxy (e.g. Nginx or Caddy) to serve it on port 80/443 with TLS.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### Nginx example (reverse proxy)
+
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name yourdomain.com;
+
+    ssl_certificate     /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
