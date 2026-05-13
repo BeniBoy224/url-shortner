@@ -7,7 +7,7 @@ A self-hosted URL shortener that tracks click analytics per link, including tota
 
 **Example**
 - Original: `https://www.bbc.co.uk/news/articles/cn0pgl0vk0qo`
-- Short: `https://linkto.bltlabs.co.uk/abc123`
+- Short: `https://linkto.bltlabs.co.uk/PJFOnN`
 
 ## Features
 
