@@ -2,6 +2,9 @@
 
 A self-hosted URL shortener that tracks click analytics per link, including total click counts, click timeline, and generalised location data (country, region, city).
 
+**Hosted Project**
+- Create your own: `https://linkto.bltlabs.co.uk`
+
 **Example**
 - Original: `https://www.bbc.co.uk/news/articles/cn0pgl0vk0qo`
 - Short: `https://linkto.bltlabs.co.uk/abc123`
