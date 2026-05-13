@@ -9,6 +9,7 @@ import TotalClicks from "@/components/custom/dash/total-clicks";
 import { LocationChart } from "@/components/custom/dash/location-chart";
 import { AlertEditUrl } from "@/components/custom/dash/alert-edit-url";
 import Link from "next/link";
+import { AlertDeleteUrl } from "@/components/custom/dash/alert-delete-url";
 
 export default async function TrackedLinkPage(props: PageProps<'/[slug]'>) {
   const { slug } = await props.params
@@ -25,14 +26,6 @@ export default async function TrackedLinkPage(props: PageProps<'/[slug]'>) {
   })
 
   if (!url || url.userId !== session.user.id) redirect("/dash")
-  
-  const deleteUrl = async () => {
-    "use server"
-    await prisma.url.delete({
-      where: { id: slug },
-    })
-    redirect("/dash")
-  }
 
   const totalClicks = async () => {
     const urlDB = await prisma.url.findMany({
@@ -66,15 +59,13 @@ export default async function TrackedLinkPage(props: PageProps<'/[slug]'>) {
             </div>
             <div className="flex gap-3">
               <a href={url.originalUrl} target="_blank" rel="noopener noreferrer">
-                {url.originalUrl}
+                {url.originalUrl.length > 30 ? url.originalUrl.slice(0, 30) + "…" : url.originalUrl}
               </a>
               <AlertEditUrl urlId={slug} currentUrl={url.originalUrl} />
             </div>
           </div>
           <div>
-            <form action={deleteUrl}>
-              <Button type="submit" variant="destructive">Delete URL</Button>
-            </form>
+            <AlertDeleteUrl urlId={slug}/>
           </div>
         </div>
         <section>
